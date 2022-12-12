@@ -35,6 +35,7 @@ router.post("/createCategory",multi_upload.single("image"),
     try {
       let image = req.file.path
       req.body.image = image
+      console.log(req.body);
       await Category.create(req.body, function (err, data) {
         if (err) {
           res.send({ massege: "Add failed", success: false, Data: err })
@@ -47,6 +48,24 @@ router.post("/createCategory",multi_upload.single("image"),
     }
   }
 )
+///////////////////get All Category//////////
+router.get("/getCategory", async (req, res) => {
+  try {
+    await Category.find({}).then((data, err) => {
+      if (err) {
+        res.send({ massege: "get data failed", success: false, Data: err })
+      } else {
+        res.send({
+          massege: "get data successfully",
+          success: true,
+          Data: data,
+        })
+      }
+    })
+  } catch (err) {
+    res.send(err)
+  }
+})
 //////////////////create Item///////////////////
 router.post("/createItem", multi_upload.single("image"), async (req, res) => {
     try {
@@ -148,7 +167,7 @@ router.post("/updateItemStatus/:itemId", async (req, res) => {
 //     }
 // })
 ///////////////////////////////////////////////////
-module.exports = router
+module.exports = router;
 
 
 
