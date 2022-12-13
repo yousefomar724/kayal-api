@@ -35,7 +35,7 @@ router.post("/createCategory",multi_upload.single("image"),
     try {
       let image = req.file.path
       req.body.image = image
-      console.log(req.body);
+      // console.log(req.body);
       await Category.create(req.body, function (err, data) {
         if (err) {
           res.send({ massege: "Add failed", success: false, Data: err })
@@ -103,11 +103,11 @@ router.get("/getItem/:catId", async (req, res) => {
 ////////////////////delete Category////////////////////
 router.delete("/deleteCategory/:categoryId", async (req, res) => {
     try {
-      await Category.deleteOne({ _id: req.params.itemId }).then((data, err) => {
+      await Category.deleteOne({ _id: req.params.categoryId }).then((data, err) => {
         if (err) {
           res.send({ massege: "delete data failed", success: false })
         } else {
-            Item.deleteMany({categoryId:req.params.itemId}).then((data2,err2)=>{
+            Item.deleteMany({categoryId:req.params.categoryId}).then((data2,err2)=>{
                 res.send({ massege: "delete data successfully", success: true })
             })
         }
@@ -133,17 +133,27 @@ router.delete("/deleteItem/:itemId", async (req, res) => {
 //////////////////////update Item Status/////////////////////////
 router.post("/updateItemStatus/:itemId", async (req, res) => {
     try {
-      await Item.findOne({ _id: req.params.itemId }).then((data, err) => {
+      await Item.findOne({ _id:req.params.itemId }).then((data, err) => {
         if (err) {
-          res.send({ massege: "delete data failed", success: false, Data: err })
+          res.send({ massege:"Update item status failed", success: false, Data: err })
         } else {
-          data.status = "inactive"
-          data.save()
-          res.send({
-            massege: "delete data successfully",
-            success: true,
-            Data: data,
-          })
+          if(data.status == "active"){
+            data.status = "inactive"
+            data.save();
+            res.send({
+              massege: "Update item status successfully",
+              success: true,
+              Data: data,
+            })
+          }else{
+            data.status = "active"
+            data.save();
+            res.send({
+              massege: "Update item status successfully",
+              success: true,
+              Data: data,
+            })
+          }
         }
       })
     } catch (err) {
@@ -151,21 +161,42 @@ router.post("/updateItemStatus/:itemId", async (req, res) => {
     }
   })
 ///////////////////////update  Item ////////////////////////////
-// router.post("/updateItem/:itemId",async(req,res)=>{
-//     try{
-//         await Item.findOne({"_id":req.params.itemId}).then((data,err)=>{
-//             if(err){
-//                 res.send({massege: "delete data failed", success: false,Data:err});
-//             }else{
-//                 data.price = "inactive"
-//                 data.save();
-//                 res.send({massege: "delete data successfully", success: true,Data:data});
-//             }
-//         });
-//     }catch(err){
-//         res.send(err);
-//     }
-// })
+router.post("/updateItem/:itemId",async(req,res)=>{
+    try{
+        await Item.findOne({"_id":req.params.itemId}).then((data,err)=>{
+            if(err){
+                res.send({massege: "Update item  failed", success: false,Data:err});
+            }else{
+                // console.log(req.body)
+                data.title = req.body.title
+                data.price = req.body.price
+                data.description = req.body.description
+                data.calories = req.body.calories
+                data.save();
+                res.send({massege: "Update item  successfully", success: true,Data:data});
+            }
+        });
+    }catch(err){
+        res.send(err);
+    }
+})
+///////////////////////update  Category ////////////////////////////
+router.post("/updateCategory/:CategoryId",async(req,res)=>{
+  try{
+      await Category.findOne({"_id":req.params.CategoryId}).then((data,err)=>{
+          if(err){
+              res.send({massege: "Update Category failed", success: false,Data:err});
+          }else{
+              // console.log(req.body)
+              data.title = req.body.title
+              data.save();
+              res.send({massege: "Update Category successfully", success: true,Data:data});
+          }
+      });
+  }catch(err){
+      res.send(err);
+  }
+})
 ///////////////////////////////////////////////////
 module.exports = router;
 

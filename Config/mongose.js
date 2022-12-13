@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-mongoose.connect('mongodb+srv://abdelrahman:qL2k1kv3ZFcc3u0D@cluster0.kpcj9of.mongodb.net/?retryWrites=true&w=majority').then((x)=>
+mongoose.connect('mongodb://0.0.0.0:27017/kayalalshbab').then((x)=>
 {
     console.log("connection is open");
 });
