@@ -38,9 +38,13 @@ router.post("/createCategory",multi_upload.single("image"),
       // console.log(req.body);
       await Category.create(req.body, function (err, data) {
         if (err) {
-          res.send({ massege: "Add failed", success: false, Data: err })
+          if(err.code == 11000){
+            res.send({ message: " 🤦‍♂️هذا التصنيف موجود مسبقا", success: false, Data: err })
+          }else{
+            res.send({ message: " 😢 فشل  تسجيل هذا التصنيف الرجاء المحاوله مره اخري", success: false, Data: err })
+          }
         } else {
-          res.send({ massege: "Added successfully", success: true, Data: data })
+          res.send({ message: " 👌 تم اضافه هذا التصنيف بنجاح ", success: true, Data: data })
         }
       })
     } catch (err) {
@@ -73,9 +77,13 @@ router.post("/createItem", multi_upload.single("image"), async (req, res) => {
       req.body.image = image
       await Item.create(req.body, function (err, data) {
         if (err) {
-          res.send({ massege: "Add failed", success: false, Data: err })
+          if(err.code == 11000){
+            res.send({ message: " 🤦‍♂️هذا الصنف موجود مسبقا", success: false, Data: err })
+          }else{
+            res.send({ message: " 😢 فشل  تسجيل هذا الصنف الرجاء المحاوله مره اخري", success: false, Data: err })
+          }
         } else {
-          res.send({ massege: "Added successfully", success: true, Data: data })
+          res.send({ message: " 👌 تم اضافه هذا الصنف بنجاح ", success: true, Data: data })
         }
       })
     } catch (err) {
@@ -161,8 +169,13 @@ router.post("/updateItemStatus/:itemId", async (req, res) => {
     }
   })
 ///////////////////////update  Item ////////////////////////////
-router.post("/updateItem/:itemId",async(req,res)=>{
+router.post("/updateItem/:itemId",multi_upload.single("image"),
+async(req,res)=>{
     try{
+      let image = req.body.image;
+      if(req.file != null){
+        image = req.file.path
+      }
         await Item.findOne({"_id":req.params.itemId}).then((data,err)=>{
             if(err){
                 res.send({massege: "Update item  failed", success: false,Data:err});
@@ -172,6 +185,7 @@ router.post("/updateItem/:itemId",async(req,res)=>{
                 data.price = req.body.price
                 data.description = req.body.description
                 data.calories = req.body.calories
+                data.image = image
                 data.save();
                 res.send({massege: "Update item  successfully", success: true,Data:data});
             }
@@ -181,19 +195,26 @@ router.post("/updateItem/:itemId",async(req,res)=>{
     }
 })
 ///////////////////////update  Category ////////////////////////////
-router.post("/updateCategory/:CategoryId",async(req,res)=>{
+router.post("/updateCategory/:CategoryId",multi_upload.single("image"),
+async(req,res)=>{
   try{
+    // console.log(req.body)
+    let image = req.body.image;
+    if(req.file != null){
+      image = req.file.path
+    }
       await Category.findOne({"_id":req.params.CategoryId}).then((data,err)=>{
           if(err){
               res.send({massege: "Update Category failed", success: false,Data:err});
           }else{
-              // console.log(req.body)
               data.title = req.body.title
+              data.image = image
               data.save();
               res.send({massege: "Update Category successfully", success: true,Data:data});
           }
       });
   }catch(err){
+      // console.log(err)
       res.send(err);
   }
 })
