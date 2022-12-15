@@ -35,7 +35,7 @@ router.post("/SignIn", async (req, res) => {
         if (result) {
             res.send({ Data: result, success: true });
         }else {
-            res.send({ massege: "not found this admin", success: false });
+            res.send({ message: "not found this admin", success: false });
             }
         } catch (err) {
         res.send("yyyyyy");

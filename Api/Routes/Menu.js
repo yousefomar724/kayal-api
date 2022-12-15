@@ -9,10 +9,10 @@ router.get("/getCategory", async (req, res) => {
   try {
     await Category.find({}).then((data, err) => {
       if (err) {
-        res.send({ massege: "get data failed", success: false, Data: err })
+        res.send({ message: "get data failed", success: false, Data: err })
       } else {
         res.send({
-          massege: "get data successfully",
+          message: "get data successfully",
           success: true,
           Data: data,
         })
@@ -29,10 +29,10 @@ router.get("/getItem/:catId", async (req, res) => {
       $and: [{ status: "active" }, { categoryId: req.params.catId }],
     }).then((data, err) => {
       if (err) {
-        res.send({ massege: "get data failed", success: false, Data: err })
+        res.send({ message: "get data failed", success: false, Data: err })
       } else {
         res.send({
-          massege: "get data successfully",
+          message: "get data successfully",
           success: true,
           Data: data,
         })

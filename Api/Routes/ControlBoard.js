@@ -57,10 +57,10 @@ router.get("/getCategory", async (req, res) => {
   try {
     await Category.find({}).then((data, err) => {
       if (err) {
-        res.send({ massege: "get data failed", success: false, Data: err })
+        res.send({ message: "get data failed", success: false, Data: err })
       } else {
         res.send({
-          massege: "get data successfully",
+          message: "get data successfully",
           success: true,
           Data: data,
         })
@@ -95,10 +95,10 @@ router.get("/getItem/:catId", async (req, res) => {
     try {
         await Item.find({ categoryId: req.params.catId }).then((data, err) => {
         if (err) {
-            res.send({ massege: "get data failed", success: false, Data: err })
+            res.send({ message: "get data failed", success: false, Data: err })
         } else {
           res.send({
-            massege: "get data successfully",
+            message: "get data successfully",
             success: true,
             Data: data,
           })
@@ -113,10 +113,10 @@ router.delete("/deleteCategory/:categoryId", async (req, res) => {
     try {
       await Category.deleteOne({ _id: req.params.categoryId }).then((data, err) => {
         if (err) {
-          res.send({ massege: "delete data failed", success: false })
+          res.send({ message: " 😢 فشل حذف التصنيف حاول مره اخري ", success: false })
         } else {
             Item.deleteMany({categoryId:req.params.categoryId}).then((data2,err2)=>{
-                res.send({ massege: "delete data successfully", success: true })
+                res.send({ message: " 👌 تم حذف التصنيف بنجاح ", success: true })
             })
         }
       })
@@ -129,9 +129,9 @@ router.delete("/deleteItem/:itemId", async (req, res) => {
     try {
       await Item.deleteOne({ _id: req.params.itemId }).then((data, err) => {
         if (err) {
-          res.send({ massege: "delete data failed", success: false })
+          res.send({ message: " 😢 فشل حذف الصنف حاول مره اخري ", success: false })
         } else {
-          res.send({ massege: "delete data successfully", success: true })
+          res.send({ message: " 👌 تم حذف الصنف بنجاح ", success: true })
         }
       })
     } catch (err) {
@@ -143,13 +143,13 @@ router.post("/updateItemStatus/:itemId", async (req, res) => {
     try {
       await Item.findOne({ _id:req.params.itemId }).then((data, err) => {
         if (err) {
-          res.send({ massege:"Update item status failed", success: false, Data: err })
+          res.send({ message:"Update item status failed", success: false, Data: err })
         } else {
           if(data.status == "active"){
             data.status = "inactive"
             data.save();
             res.send({
-              massege: "Update item status successfully",
+              message: "Update item status successfully",
               success: true,
               Data: data,
             })
@@ -157,7 +157,7 @@ router.post("/updateItemStatus/:itemId", async (req, res) => {
             data.status = "active"
             data.save();
             res.send({
-              massege: "Update item status successfully",
+              message: "Update item status successfully",
               success: true,
               Data: data,
             })
@@ -178,7 +178,7 @@ async(req,res)=>{
       }
         await Item.findOne({"_id":req.params.itemId}).then((data,err)=>{
             if(err){
-                res.send({massege: "Update item  failed", success: false,Data:err});
+                res.send({message: "Update item  failed", success: false,Data:err});
             }else{
                 // console.log(req.body)
                 data.title = req.body.title
@@ -188,9 +188,9 @@ async(req,res)=>{
                 data.image = image
                 data.save((err)=>{
                   if(err){
-                    res.send({massege: " 😢 فشل تعديل الصنف حاول مره اخري", success: false ,Data:data});
+                    res.send({message: " 😢 فشل تعديل الصنف حاول مره اخري", success: false ,Data:data});
                   }else{
-                    res.send({massege: " 👌 تم تعديل الصنف بنجاح", success: true,Data:data});
+                    res.send({message: " 👌 تم تعديل الصنف بنجاح", success: true,Data:data});
                   }
                 });
             }
@@ -210,15 +210,15 @@ async(req,res)=>{
     }
       await Category.findOne({"_id":req.params.CategoryId}).then((data,err)=>{
           if(err){
-              res.send({massege: "Update Category failed", success: false,Data:err});
+              res.send({message: "Update Category failed", success: false,Data:err});
           }else{
               data.title = req.body.title
               data.image = image
               data.save((err)=>{
                 if(err){
-                  res.send({massege: " 😢 فشل تعديل التصنيف حاول مره اخري", success: false ,Data:data});
+                  res.send({message: " 😢 فشل تعديل التصنيف حاول مره اخري", success: false ,Data:data});
                 }else{
-                  res.send({massege: " 👌 تم تعديل التصنيف بنجاح", success: true,Data:data});
+                  res.send({message: " 👌 تم تعديل التصنيف بنجاح", success: true,Data:data});
                 }
               });
           }
