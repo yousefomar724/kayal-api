@@ -4,7 +4,7 @@ const port= process.env.port||4000;
 const cors = require('cors');
 const adminRoute = require("./Api/Routes/Auth");
 const menuRoute = require("./Api/Routes/Menu");
-const controlboardRoute = require("./Api/Routes/controlboard");
+const controlboardRoute = require("./Api/Routes/ControlBoard");
 const mongo = require("./Config/mongose");
 /////////////////////////////////////////////
 app.use(cors());
