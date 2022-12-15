@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port= process.env.port||8000;
+const port= process.env.port||4000;
 const cors = require('cors');
 const adminRoute = require("./Api/Routes/Auth");
 const menuRoute = require("./Api/Routes/Menu");
