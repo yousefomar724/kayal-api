@@ -186,8 +186,13 @@ async(req,res)=>{
                 data.description = req.body.description
                 data.calories = req.body.calories
                 data.image = image
-                data.save();
-                res.send({massege: "Update item  successfully", success: true,Data:data});
+                data.save((err)=>{
+                  if(err){
+                    res.send({massege: " 😢 فشل تعديل الصنف حاول مره اخري", success: false ,Data:data});
+                  }else{
+                    res.send({massege: " 👌 تم تعديل الصنف بنجاح", success: true,Data:data});
+                  }
+                });
             }
         });
     }catch(err){
@@ -209,8 +214,13 @@ async(req,res)=>{
           }else{
               data.title = req.body.title
               data.image = image
-              data.save();
-              res.send({massege: "Update Category successfully", success: true,Data:data});
+              data.save((err)=>{
+                if(err){
+                  res.send({massege: " 😢 فشل تعديل التصنيف حاول مره اخري", success: false ,Data:data});
+                }else{
+                  res.send({massege: " 👌 تم تعديل التصنيف بنجاح", success: true,Data:data});
+                }
+              });
           }
       });
   }catch(err){
