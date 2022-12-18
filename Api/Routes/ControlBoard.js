@@ -6,7 +6,7 @@ const Category = require("../Models/Category")
 ////////////////////multer to uplode image////////////////////////
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "/tmp/image")
+    cb(null, "/tmp")
   },
   filename: function (req, file, cb) {
     cb(null, file.fieldname + "-" + Date.now() + file.originalname)
